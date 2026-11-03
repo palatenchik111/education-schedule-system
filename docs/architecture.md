@@ -2,7 +2,26 @@
 
 Для проекта выбрана модульная архитектура.
 
-![alt text](image.png)
+```mermaid
+flowchart TB
+    User(["Пользователь"])
+    
+    subgraph Host ["ASP.NET Core API Host"]
+        Api["ApiHost"]
+        
+        subgraph Modules ["Модули"]
+            Schedule["ScheduleModule"]
+            Conflict["ConflictModule"]
+            Reference["ReferenceModule"]
+        end
+    end
+    
+    User -->|HTTP| Api
+    Api --> Schedule
+    Api --> Reference
+    Schedule -->|"проверка конфликтов"| Conflict
+    Schedule -->|"проверка справочных данных"| Reference
+```
 
 Центральным модулем бизнес-процесса является `ScheduleModule`.
 
